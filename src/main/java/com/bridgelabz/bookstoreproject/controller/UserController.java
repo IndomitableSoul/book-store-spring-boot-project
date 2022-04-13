@@ -3,6 +3,7 @@ package com.bridgelabz.bookstoreproject.controller;
 
 import com.bridgelabz.bookstoreproject.dto.ResponseDTO;
 import com.bridgelabz.bookstoreproject.dto.UserDTO;
+import com.bridgelabz.bookstoreproject.entity.LoginUser;
 import com.bridgelabz.bookstoreproject.entity.User;
 import com.bridgelabz.bookstoreproject.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 @RestController
 public class UserController {
@@ -20,7 +22,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
 
     //this api is accessible to authenticated user only
     @RequestMapping("/welcome")
@@ -68,4 +69,15 @@ public class UserController {
         User user = userService.addUser(userDTO);
         return ResponseEntity.ok(user);
     }
+
+    //send OTP
+    static Random random = new Random();
+    static long otp = random.nextInt(999999);
+    String OTP = String.valueOf(otp);
+   @PostMapping("/sendOTPToEmail")
+    public ResponseEntity<ResponseDTO> sendOTPToEmail(@RequestBody LoginUser loginUser) {
+       UserService.sendEmailToUser("OTP: ", OTP);
+       ResponseDTO responseDTO = new ResponseDTO("OTP is ", OTP);
+       return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+   }
 }

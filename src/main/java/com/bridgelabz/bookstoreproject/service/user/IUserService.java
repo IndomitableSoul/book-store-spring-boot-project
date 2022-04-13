@@ -1,6 +1,7 @@
 package com.bridgelabz.bookstoreproject.service.user;
 
 import com.bridgelabz.bookstoreproject.dto.UserDTO;
+import com.bridgelabz.bookstoreproject.entity.LoginUser;
 import com.bridgelabz.bookstoreproject.entity.User;
 
 import java.util.List;
@@ -13,4 +14,11 @@ public interface IUserService {
     User updateUser(Long id, UserDTO userDTO);
 
     User deleteUser(Long id);
+
+    void sendOTPToEmail(LoginUser loginUser);
+
+
+    //Login services
+
+
 }
